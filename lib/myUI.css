@@ -1,0 +1,110 @@
+#dlgBackground {	
+width:100%;
+height:100%;
+position:absolute;
+top:0;
+left:0;
+background-color:#000000;
+z-index:1001;
+opacity: .75;
+display:none;
+}
+.disabled{
+position:absolute;
+z-index:1000;
+background-color:#ddd;
+opacity: .75;
+display:none;
+}
+#dialog{
+width:750px;
+position:absolute;
+top:0;
+left:0;
+margin-top:30px;
+margin-bottom:30px;
+padding-top:0;
+padding-bottom:0;
+box-shadow: 0 4px 23px 5px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0,0,0,0.15);
+border: 1px solid #DDD;
+border-radius:4px;
+background-color: white;
+z-index:1002;
+overflow-y:auto;
+display:none;
+}
+
+
+#close_icon{
+position:absolute;
+right: 30px;
+top:20px;
+}
+#help_icon{
+position:absolute;
+right: 55px;
+top:20px;
+}
+button{
+border: 1px solid #DDD;
+border-radius: 2px;
+background-image: -webkit-linear-gradient(top,white,whitesmoke);
+color: #666;
+padding: 4px 10px 4px 10px;
+cursor: pointer;
+}
+.myUI_button{
+float:right;
+margin-left: 15px;
+margin-right: 0;
+}
+button:disabled{
+background-image: -webkit-linear-gradient(top,#DDD,#DDD);
+}
+.buttonMouseEnter{
+border: 1px solid #00CCFF;
+color:black;
+background-image: -webkit-linear-gradient(top,white,#00CCFF);
+}
+
+.star{
+font-style:normal;
+color:red;
+}
+.myUI_tipOn{
+color:#DDD;
+}
+td{
+position:relative;
+}
+.myUI_errormsg{
+display:none;
+color:red;
+font-weight:bold;
+}
+
+
+
+#menu{
+position:fixed;
+top:0;
+left:0;
+margin:0;
+padding:3px;
+box-shadow: 5px 5px 5px -5px rgba(0, 0, 0, 0.2), 2px 2px 2px rgba(0,0,0,0.15);
+border: 1px solid #DDD;
+background-color: white;
+z-index:1003;
+display:none;
+}
+.menuItem{
+padding-top:3px;
+padding-bottom:3px;
+padding-left:3px;
+padding-right:6px;
+cursor:default;
+}
+.menuItemSelect{
+background-color:#00CCFF;
+}
+

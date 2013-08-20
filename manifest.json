@@ -1,0 +1,37 @@
+{
+   "manifest_version": 2,
+ "name": "在线词典",
+  "description": "在线词典",
+  "version": "1.0",
+  "permissions": [
+    "*://*/*", 
+	"tabs",
+	"contextMenus"
+  ],
+  "icons": {
+    "16": "res/_icon__16.png",
+    "24": "res/_icon__24.png",
+    "32": "res/_icon__32.png",
+    "48": "res/_icon__48.png",
+    "64": "res/_icon__64.png"
+  },
+  "browser_action": {
+    "default_icon": "res/_icon__48.png",
+	"default_popup": "popup.html"
+  },  
+  "options_page": "options.html",
+  "background": {
+    "scripts": ["background.js"]
+    /*"persistent": false*/
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*","file:///*/*"],
+      "js": ["lib/jquery.js", "lib/myLib.js", "content_scripts.js"],
+	  "run_at": "document_start"
+    }
+  ],
+  
+  "web_accessible_resources": ["entry.html"],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' chrome-extension:// ; object-src 'self'  chrome-extension://"
+}

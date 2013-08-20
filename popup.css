@@ -1,0 +1,92 @@
+input, div, span, img{
+vertical-align:middle;
+} 
+body{
+min-width:550px;
+min-height:550px;
+}
+#div_input{
+width:370px;
+padding-top: 25px;
+padding-bottom: 25px;
+margin-left:auto;
+margin-right:auto;
+}
+#div_input *{ 
+vertical-align:middle;
+font-size:1.1em;
+}
+
+#searchtype,#img_down{
+position:relative;
+left:27px;
+cursor: pointer; 
+}
+input, select, textarea{
+border: 1px solid #DDD;
+}
+#searchtext{
+width: 240px;
+height: 30px;
+padding: 0 5px 0 27px;
+line-height: 18px;
+}
+.searchtext_focus{
+outline:none;
+border-color: #00CCFF;
+}
+.btn_img{
+border: 1px solid #DDD;
+border-radius:2px;
+cursor: pointer;
+margin-left:4px;
+padding: 4px 3px 0px 3px;
+background-image: -webkit-linear-gradient(top,white, #DDD);
+}
+
+.btn_img_enter{
+border: 1px solid #00CCFF;
+background-image: -webkit-linear-gradient(top,white, #00CCFF);
+}
+
+.menuItemImg{
+width:16px;
+height:16px;
+}
+.menuItemText{
+padding-left:5px;
+}
+.checkboxDisable{
+color:grey;
+}
+
+.div_result_no{
+font-weight:bold; 
+}
+.div_result_no img{
+vertical-align:middle;
+margin-left:10px;
+margin-right:10px;
+}
+.dictname{
+vertical-align: middle;
+}
+.div_result_content{
+min-width:612px;
+width:612px;
+margin-left:auto;
+margin-right:auto;
+height:122px;
+}
+
+iframe{
+min-width:600px;
+width:600px;
+height:50px;
+border: 1px solid #DDD;
+border-radius:4px;
+margin-top:10px;
+margin-bottom:60px;
+padding:5px;
+box-shadow: 5px 5px 2px -5px rgba(0, 0, 0, 0.2);
+}
