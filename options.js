@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
 	var o_setting = null;
 	
@@ -20,8 +21,8 @@ $(document).ready(function(){
 			var divitem = $('.item_txt_select').parent();
 			var itemid = divitem.attr('id');
 			if (divitem.prev() && (divitem.prev().hasClass('item') || divitem.prev().hasClass('subitem'))){
-				var thisIndex = getIndexById(divitem);
-				var prevIndex = getIndexById(divitem.prev());
+				var thisIndex = getIndexById(divitem.attr("id"));
+				var prevIndex = getIndexById(divitem.prev().attr("id"));
 				var tmp = o_setting.items[thisIndex];
 				o_setting.items[thisIndex] = o_setting.items[prevIndex];
 				o_setting.items[prevIndex] = tmp;
@@ -36,7 +37,7 @@ $(document).ready(function(){
 			}
 			var divitem =$('.item_txt_select').parent();				
 			var nextid = divitem.next().attr('id');
-			var index = getIndexById(divitem);
+			var index = getIndexById(divitem.attr("id"));
 			o_setting.items.removeAt(index);	
 			refreshDivItem();
 			$('.item').filter('#'+nextid).children().first().trigger('click');
@@ -46,10 +47,13 @@ $(document).ready(function(){
 			if (!$('.item_txt_select').length){
 				return;
 			}
-			var index = getIndexById($('.item_txt_select').parent());
+			var index = getIndexById($('.item_txt_select').parent().attr("id"));
 			var newItem = {};
 			for (var prop in o_setting.items[index]){
 				newItem[prop] = o_setting.items[index][prop];
+			}
+			if (!newItem.d_params){
+				newItem.d_params ='';
 			}
 			createOrEdit(index, newItem, "编辑" + newItem.d_name);
 		});
@@ -61,7 +65,9 @@ $(document).ready(function(){
 				d_name: '',
 				d_minimode: false,
 				d_url: '',
-				d_submitType: 'GET'
+				d_params: '',
+				d_submitType: 'GET',
+				d_urlencode: 'UTF-8'
 			};
 			createOrEdit(o_setting.items.length, newitem, "添加新搜索");
 		});			
@@ -72,8 +78,10 @@ $(document).ready(function(){
 				d_enabled: true,
 				d_parentId: parseInt($('.item_txt_select').parent().attr('id')),
 				d_name: '',
-				d_url: '',
 				d_submitType: 'GET',
+				d_url: '',
+				d_params: '',
+				d_urlencode: 'UTF-8',
 				d_filter: '',
 				d_css: ''
 			};
@@ -97,6 +105,10 @@ $(document).ready(function(){
 				
 				o_setting.items[index] = tmpItem;			
 				myLib.updateIcon(tmpItem, function(){
+					if (tmpItem.d_parentId && tmpItem.d_favicon){
+						var parent = getIndexById(tmpItem.d_parentId);
+						o_setting.items[parent].d_favicon = tmpItem.d_favicon;
+					}
 					myLib.setSetting(o_setting);		
 					refreshDivItem();			
 					$('.item').filter('#'+tmpItem.d_id).children().first().trigger('click');
@@ -142,7 +154,7 @@ $(document).ready(function(){
 			
 			//checkbox 是否启用该项
 			$(".chkbx_enable").change(function() {
-				var i = getIndexById($(this).parent().parent());
+				var i = getIndexById($(this).parent().parent().attr("id"));
 				o_setting.items[i].d_enabled = $(this).prop("checked");
 			});
 
@@ -159,7 +171,7 @@ $(document).ready(function(){
 					$('.up').hide();
 				}
 				//
-				var index = getIndexById(divitem);
+				var index = getIndexById(divitem.attr("id"));
 				if (o_setting.items[index].d_minimode){
 					$('.addsub').show();
 				}
@@ -171,14 +183,13 @@ $(document).ready(function(){
 		};	
 		refreshDivItem();
 
-		
-
 		$('#div_btn').append('<div>'+
 			'<button class="button" id="btn_save"><img src="res/save_leave.png">保存</button>'+
 			'<button class="button" id="btn_default"><img src="res/default_leave.png">恢复默认</button>'+
-		'</div>');	
-		var getIndexById = function(divitem){
-			var id = parseInt(divitem.attr("id"));
+		'</div>');
+		
+		var getIndexById = function(id){
+			id = parseInt(id);
 			for (var i = 0; i < o_setting.items.length; i++){
 				if (o_setting.items[i].d_id == id){
 					return i;
@@ -230,12 +241,6 @@ $(document).ready(function(){
 				'<td></td>'+
 			'</tr>'+
 			
-			'<tr id = "tr_d_url">'+
-				'<th><em class="star"></em>链接URL</th>'+
-				'<td><input type="text" id="d_url" class="long"></input></td> '+
-				'<td></td>'+
-			'</tr>'+
-			
 			'<tr id = "tr_d_submitType">'+				
 				'<th><em class="star"></em>链接提交方式</th>'+
 				'<td>'+
@@ -244,13 +249,26 @@ $(document).ready(function(){
 				'<td></td>'+
 			'</tr>'+
 			
-			'<tr id = "tr_d_params">'+			
-			'<th><em class="star"></em>POST参数</th>'+
-				'<td id = "d_params">'+
+			'<tr id = "tr_d_url">'+
+				'<th><em class="star"></em>链接URL</th>'+
+				'<td><input type="text" id="d_url" class="long"></input></td> '+
+				'<td></td>'+
+			'</tr>'+
+						
+			'<tr id = "tr_d_params">'+
+				'<th><em class="star"></em>参数</th>'+
+				'<td><input type="text" id="d_params" class="long"></input></td> '+
+				'<td></td>'+
+			'</tr>'+
+			
+			'<tr id = "tr_d_urlencode">'+				
+				'<th><em class="star"></em>URL编码</th>'+
+				'<td>'+
+				'<select id="d_urlencode" class="mid"><option value="UTF-8">UTF-8</option><option value="GB2312">GB2312</option></select>'+
 				'</td>'+
 				'<td></td>'+
 			'</tr>'+
-
+			
 			'<tr id="tr_d_filter">'+
 				'<th>筛选标签</th>'+
 				'<td><textarea id="d_filter"></textarea></td>'+
@@ -270,40 +288,13 @@ $(document).ready(function(){
 			for (var selector in  o_setting.forms){
 				$(selector).setValidate(o_setting.forms[selector]);
 			}
+	
 			
-			//输入框填值
-			var i = 1;	
-			
-			var appendParam = function(prm_idx, item){
-				$('#tr_d_params').show();
-				$('#param_img_' + (prm_idx - 1)).hide();
-				$("#d_params").append(
-				'参数' + prm_idx + ''+
-				'   名 '+
-				'<input type="text" id="d_param_name_' + prm_idx + '" class="d_param mid"></input>'+
-				'值 '+
-				'<input type="text" id="d_param_value_' + prm_idx + '" class="d_param mid"></input>'+
-				'<img src="res/addsub_leave.png" title="添加" id="param_img_' + prm_idx + '"><br>');
-				
-				$('#param_img_' + prm_idx).click(function(){
-					appendParam(prm_idx + 1, item);
-				});
-				
-				$('#d_param_name_' + prm_idx).setValidate({ notEmpty: "参数"+ prm_idx + "名不能为空!"} );
-				$('#d_param_value_' + prm_idx).setValidate({ notEmpty: "参数"+ prm_idx + "值不能为空!"} );
-				if (item && ! (('d_param_name_' + prm_idx) in item)) {
-					item['d_param_name_' + prm_idx] = "";
-					item['d_param_value_' + prm_idx] = "";
-				}
-			};
 			for (var prop in item){
-				if (prop.indexOf('d_param_name_') != -1){
-					var name = item[prop];
-					var value = item[prop.replace("name", "value")];
-					appendParam(i++, item);
-				}
 				$('#' + prop).setValue(item[prop]);
-			}				
+			}
+
+		
 			//3
 			$('#d_minimode').change(function(){
 				if ($(this).prop("checked")){
@@ -318,30 +309,6 @@ $(document).ready(function(){
 				}
 			});
 			
-			//GET/POST选项改变时
-			$('#d_submitType').change(function(){
-				if ($(this).getValue() != "POST"){
-					$("#d_params").empty();
-					$('#tr_d_params').children().first().text('');
-					$("#tr_d_params").hide();
-					for (var i = 1; true; i++){
-						if ( ('d_param_name_' + i) in item) {
-							delete item['d_param_name_' + i];
-							delete item['d_param_value_' + i];
-						}
-						else{
-							break;
-						}
-					}
-				}
-				else{
-					$("#tr_d_params").show();
-					if (!$('#d_param_name_1').length){
-						$('#tr_d_params').children().first().text('POST参数');
-						appendParam(1, item);
-					}
-				}
-			});			
 			$('input, select,textarea').focus(function(){
 				$(this).addClass('input_focus');
 			}).blur(function(){
@@ -353,7 +320,6 @@ $(document).ready(function(){
 				$('#tr_' + prop).show();
 			}	
 			$('#d_minimode').trigger('change');
-			$('#d_submitType').trigger('change');
 
 		};
 		

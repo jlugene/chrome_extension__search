@@ -1,8 +1,11 @@
+
+
 $(document).ready(function(){
 	var select_index;
 	var lastWord = "";
 	var menuCreated = false;
 	var setting;
+
 	
 	//make sure item_index is a number
 	var queryWord = function(_keyword, item_index){
@@ -11,13 +14,15 @@ $(document).ready(function(){
 		}
 		$('.div_result_content').remove();
 		var item = setting.items[item_index];
+		//minimode
 		if (item.d_minimode){
 			var id = item.d_id;
 			for (var i = 0; i < setting.items.length; i++){
 				if (setting.items[i].d_enabled && setting.items[i].d_parentId == id){
 					var subitem = setting.items[i];
 					var img = (subitem.d_favicon ? ('<img src="' + subitem.d_favicon + '">') : "");
-					var _src = 'entry.html#' + 'i=' + i + '&q=' + _keyword;
+					var _src = 'ajax.html#' + 'i=' + i + '&q=' + _keyword;
+					//var _src = 'ajax.html?' + 'i=' + i + '&q=' + _keyword;
 					$('body').append(
 					'<div class="div_result_content">'+
 						'<div class="div_result_no">'+ img + '<span class="itemname">' + subitem.d_name + '</span></div>'+
@@ -26,9 +31,9 @@ $(document).ready(function(){
 				}
 			}
 		}
+		//non minimode
 		else{
-			window.open((item.d_submitType == "GET") ? 
-				item.d_url.replace("%%keyword%%", _keyword) : ('entry.html#' + 'i=' + i + '&q=' + _keyword));
+			window.open('get_post.html#' + 'i=' + item_index + '&q=' +  _keyword);
 		}
 		$("#searchtext").focus();
 		

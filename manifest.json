@@ -1,7 +1,7 @@
 {
    "manifest_version": 2,
- "name": "在线词典",
-  "description": "在线词典",
+ "name": "自定义搜索引擎",
+  "description": "自定义搜索引擎",
   "version": "1.0",
   "permissions": [
     "*://*/*", 
@@ -22,7 +22,6 @@
   "options_page": "options.html",
   "background": {
     "scripts": ["background.js"]
-    /*"persistent": false*/
   },
   "content_scripts": [
     {

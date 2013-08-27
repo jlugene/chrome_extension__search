@@ -35,17 +35,8 @@
 					d_enabled: true,
 					d_name: "汉典",
 					d_url: "http://www.zdic.net/sousuo/",
+					d_urlpost: "lb_a=hp&lb_b=mh&lb_c=mh&tp=tp1&q=%%keyword%%",
 					d_submitType: "POST",
-					d_param_name_1: "lb_a",
-					d_param_value_1: "hp",
-					d_param_name_2: "lb_b",
-					d_param_value_2: "mh",
-					d_param_name_3: "lb_c",
-					d_param_value_3: "mh",
-					d_param_name_4: "tp",
-					d_param_value_4: "tp1",
-					d_param_name_5: "q",
-					d_param_value_5: "%%keyword%%",
 					d_minimode: false
 				},
 				{
@@ -121,6 +112,10 @@
 					notEmpty: "链接不能为空!",
 					tip : "http://www.example.com/index.php?q=%%keyword%%"
 				},
+				'#d_urlpost' :{
+					notEmpty: "链接不能为空!",
+					tip : "q=%%keyword%%"
+				},
 				'#d_submitType' : {
 					notEmpty: "提交方式不能为空!"
 				},
@@ -176,7 +171,7 @@
 						chrome.windows.update(popId, { focused :true });
 					}
 					else{
-						var _src = 'popup.html#' + 'q=' + selectionText + '&i=' + i;
+						var _src = 'popup.html#' + 'i=' + i + '&q=' + selectionText;
 						chrome.windows.create({ url:_src, type:'panel', width:800  }, function(window){popId = window.id;}); 
 					}
 				});
@@ -184,8 +179,7 @@
 		}
 		//else open as a new window 
 		else{
-			window.open((item.d_submitType == "GET") ? 
-				item.d_url.replace("%%keyword%%", selectionText) : ('entry.html#' + 'i=' + i + '&q=' + selectionText));
+			window.open( ('get_post.html#' + 'i=' + i + '&q=' + selectionText));
 		}		
 	};
 	
