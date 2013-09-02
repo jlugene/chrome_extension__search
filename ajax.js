@@ -5,7 +5,7 @@ $(document).ready(function(){
 		var params = window.location.hash.substring(1).split('&');
 		var item_index = parseInt(params[0].split('=')[1]);
 		var keyword = params[1].split('=')[1];
-		var item = data.items[item_index];alert(keyword);
+		var item = data.items[item_index];
 		myLib.ajax_query(keyword, item, function(html, slct){
 			$(slct).empty().append(html);
 		});
